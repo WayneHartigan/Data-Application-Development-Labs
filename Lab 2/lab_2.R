@@ -87,3 +87,28 @@ coplot(mpg ~ hp | cyl, data = mtcars, panel = panel.smooth, rows = 1)
 ##############################################
 #Excercises
 
+table(mtcars$am)
+maxWeight = max(mtcars$wt)
+maxWeight
+(mtcars[mtcars$wt>=maxWeight, ])
+
+minQsec = min(mtcars$qsec)
+(mtcars[mtcars$qsec==minQsec, ])
+
+(meanMPG = tapply(mtcars$mpg, mtcars$am, mean))
+
+meanHp = mean(mtcars$hp)
+aboveMeanHP = mtcars[mtcars$hp > meanHp, ]
+dim(aboveMeanHP)
+
+moreThanSix = aboveMeanHP[aboveMeanHP$cyl == 6, ]
+dim(moreThanSix)
+
+automatics = moreThanSix[moreThanSix$am == 'Automatic', ]
+dim(automatics)
+
+boxplot(mpg ~ cyl, data=mtcars)
+
+mysample = mtcars[sample(1:nrow(mtcars), nrow(mtcars)/2, replace=FALSE), ]
+
+automatic = mtcars[mtcars$am == "Automatic"]
