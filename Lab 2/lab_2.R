@@ -110,5 +110,16 @@ dim(automatics)
 boxplot(mpg ~ cyl, data=mtcars)
 
 mysample = mtcars[sample(1:nrow(mtcars), nrow(mtcars)/2, replace=FALSE), ]
+automatic = mtcars[mtcars$am == "Automatic",]
+manual = mtcars[mtcars$am != "Automatic",]
 
-automatic = mtcars[mtcars$am == "Automatic"]
+plot(automatic$hp, automatic$mpgm, main = "MPG vs. HP for Automatics")
+plot(manual$hp, manual$mpgm, main = "MPG vs. HP for Manuals")
+
+lmAutomatic = lm(mpg ~ hp, automatic)
+plot(automatic$hp, automatic$mpg, main="MPG vs. HP for Automatics")
+abline(lmAutomatic)
+
+lmManual = lm(mpg ~ hp, manual)
+plot(manual$hp, manual$mpg, main="MPG vs. HP for Manuals")
+abline(lmManual)
