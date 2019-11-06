@@ -153,6 +153,13 @@ my_ca_dataset$YearsAtCompany[is.na(my_ca_dataset$YearsAtCompany)] = mean(my_ca_d
 my_ca_dataset$YearsWithCurrManager[is.na(my_ca_dataset$YearsWithCurrManager)] = mean(my_ca_dataset$YearsWithCurrManager, na.rm=TRUE)
 my_ca_dataset$MonthlyIncome[is.na(my_ca_dataset$MonthlyIncome)] = mean(my_ca_dataset$MonthlyIncome, na.rm=TRUE)
 
+#Advanced Method for dealing with them
+library(mice)
+mice_mod <- mice(my_ca_dataset[, !names(my_ca_dataset) %in% 
+                                 c('NamesOfData')], method='rf')
+mice_output = complete(mice_mod)
+my_ca_dataset$Age = mice_out$Age
+sapply(my_ca_dataset, function(x) sum(is.na(x)))
 #Find Outliers
 ageOutliers = boxplot.stats(my_ca_dataset$Age)$out
 ageOutliers
@@ -171,6 +178,8 @@ YICRMin
 YICRMax = max(my_ca_dataset$YearsInCurrentRole)
 YICRMax
 
+summary(my_ca_dataset$YearsInCurrentRole)
+
 #check most attributes
 table(my_ca_dataset$Attrition)
 #No has more
@@ -180,3 +189,38 @@ barplot(table(my_ca_dataset$Attrition))
 barplot(table(my_ca_dataset$BusinessTravel))
 
 ####### Inter Questions #######
+
+aggregate(NumCompaniesWorked ~ Attrition, mean, data=my_ca_dataset)
+
+aggregate(Age ~ Education, mean, data=my_ca_dataset)
+
+boxplot(Age ~ Education, mean, data=my_ca_dataset)
+
+plot(my_ca_dataset$NumCompaniesWorked, my_ca_dataset$Age)
+
+plot(my_ca_dataset$Age ~ my_ca_dataset$Attrition)
+
+
+####### Advanced Questions #######
+#CoPlots for A1
+coplot(MonthlyIncome ~ BusinessTravel | Attrition, data = my_ca_dataset, panel=panel.smooth, rows=1)
+#GGplot
+library(ggplot2)
+library(ggthemes)
+ggplot(my_ca_dataset, aes(x = NumCompaniesWorked, fill=Attrition)) + 
+  geom_bar(stat='count', position='dodge') +
+  labs(x = 'NumCompaniesWorked') +
+  facet_grid(.~JobInvolvement) + 
+  theme_few()
+
+#Display all att vs attrition A2
+library(randomForest)
+rf = randomForest(Attrition ~., data = my_ca_dataset)
+varImpPlot(rf)
+
+#A3
+#Splitting age in categories
+summary(my_ca_dataset$Age)
+my_ca_dataset$NewAge = cut(my_ca_dataset$Age, breaks = c(0, 25, 40, 55), labels=c("Young", "Old", "Ancient"))
+table(my_ca_dataset$NewAge, my_ca_dataset$BusinessTravel)
+
