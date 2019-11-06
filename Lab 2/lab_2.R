@@ -53,7 +53,8 @@ levels(student.df$nationality)
 student.df$DAD = as.numeric(student.df$DAD)
 student.df$BDA = as.numeric(student.df$BDA)
 
-averages <- tapply(student.df$BDA, student.df$nationality, mean)
+?tapply
+averages <- tapply(student.df$BDA, student.df$gender, mean)
 averages
 
 table(student.df$nationality)
@@ -106,7 +107,6 @@ dim(moreThanSix)
 
 automatics = moreThanSix[moreThanSix$am == 'Automatic', ]
 dim(automatics)
-
 boxplot(mpg ~ cyl, data=mtcars)
 
 mysample = mtcars[sample(1:nrow(mtcars), nrow(mtcars)/2, replace=FALSE), ]
