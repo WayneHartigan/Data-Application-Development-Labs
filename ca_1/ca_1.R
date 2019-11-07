@@ -130,6 +130,7 @@ my_ca_dataset = my_ca_dataset[, -(c(8))]
 
 #Checking which atts have missing value
 sapply(my_ca_dataset, function(x) sum(is.na(x)))
+sapply(sum(my_ca_dataset == 'Automatic'))
 
 #Deal with them
 Mode = function(x){
