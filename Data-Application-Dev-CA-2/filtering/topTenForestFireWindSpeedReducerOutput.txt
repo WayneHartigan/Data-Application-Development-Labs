@@ -1,0 +1,10 @@
+9.4, mar
+9.4, jun
+9.4, feb
+9.4, apr
+8.9, aug
+8.5, mar
+8.5, dec
+8.5, dec
+8.5, dec
+8.5, dec
